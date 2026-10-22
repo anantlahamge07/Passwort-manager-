@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void) {
 
@@ -6,5 +7,9 @@ int main(void) {
     printf("===================================\n");
     printf("        PASSWORD MANAGER\n");
     printf("===================================\n");
+    char buff[3];
+    printf("Heyo! What would you like this time?\n");
+    fgets(buff, sizeof(buff), stdin);
+
     return 0;
 }
