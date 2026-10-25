@@ -11,6 +11,8 @@ typedef struct {
     char* url;
 } Entry;
 
-
+void str_cpy(char* src, char* dst);
+Entry* create_entry(unsigned id,char* name, char* username, char* password, char* url);
+void free_strings(Entry* entry);
 
 #endif
