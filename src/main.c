@@ -3,12 +3,24 @@
 
 int main(void) {
 
-    printf("Welcome to the password manager!\n");
-    printf("===================================\n");
+    printf("      ********      \n");
+    printf("   **          **   \n");
+    printf("  *              *  \n");
+    printf(" *   ***    ***   * \n");
+    printf("*    ***    ***    *\n");
+    printf("*                  *\n");
+    printf("*   *          *   *\n");
+    printf(" *   **      **   * \n");
+    printf("  *    ******    *  \n");
+    printf("   **          **   \n");
+    printf("      ********      \n");
+    printf("Welcome to password manager!\n");
+    printf("======================================================================\n");
     printf("        PASSWORD MANAGER\n");
-    printf("===================================\n");
+    printf("======================================================================\n");
     char buff;
     printf("Heyo! What would you like to do this time?\n");
+    printf("New here? press h to get some help\n");
     while (1) {
 
         if (scanf("%c", &buff) != 1) {
