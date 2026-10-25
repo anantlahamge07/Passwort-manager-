@@ -19,6 +19,7 @@ Entry* create_entry(unsigned id,char* name, char* username, char* password, char
     str_cpy(entry.url, url);
     str_cpy(entry.username, username);
 
+    return &entry;
 }
 // freeing all the strings owned by a particular entry
 void free_strings(Entry* entry) {

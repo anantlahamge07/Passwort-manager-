@@ -2,13 +2,15 @@
 #define VAULT_SESSION_H
 
 #include "credentials.h"
+#include "stdbool.h"
+
 
 typedef struct {
     unsigned size;
-    Entry entries[2];
+    Entry* entries[2];
     unsigned capacity;
     bool state;
-} vault_session;
+} VaultSession;
 
 
 #endif
