@@ -1,4 +1,4 @@
-#include "vault_session.h"
+#include "../include/vault_session.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -35,7 +35,6 @@ bool add_entry (VaultSession* vault_session, Entry* entry) {
             vault_session->capacity = vault_session->capacity * 2;
             vault_session->entries = temp;
             temp = NULL;
-
         }
         vault_session->entries[vault_session->size] = entry;
         vault_session->size++;
@@ -55,7 +54,7 @@ bool remove_entry(VaultSession* vault_session, unsigned id) {
         if (vault_session->entries[i]->id == id) {
             // setting the required pointer to NULL
             free(vault_session->entries[i]);
-            vault_session->entries[i] == NULL;
+            vault_session->entries[i] = NULL;
             vault_session->size--;
             return true;
         }
