@@ -19,7 +19,7 @@ Vault* create_vault(char* name, uint64_t id, char* path) {
 }
 
 Vaults* get_all_vaults() {
-
+    return NULL;
 }
 
 Vault* get_vault(Vaults* vaults, uint64_t id) {
