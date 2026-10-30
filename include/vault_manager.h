@@ -13,6 +13,8 @@ typedef struct {
 
 // struct representing multiple vaults
 typedef struct {
+    unsigned capacity;
+    unsigned size;
     Vault** vaults;
 } Vaults;
 
@@ -20,7 +22,7 @@ Vault* create_vault(char* name, uint64_t id, char* path);
 
 Vaults* get_all_vaults();
 
-Vault* get_vault(uint64_t id);
+Vault* get_vault(Vaults* vaults, uint64_t id);
 
 
 #endif
