@@ -3,7 +3,7 @@
 #include "../include/vault_session.h"
 
 // helper to read the input
-static void read_line(char* input, char* buff, size_t size) {
+static void read_line(const char* input, char* buff, size_t size) {
     printf("Prompt: %s", input);
     if (fgets(buff, (int) size, stdin) == NULL) {
         buff[0] = "\0";
