@@ -3,17 +3,18 @@
 #include "../include/vault_session.h"
 
 // helper to read the input
-static void read_line(const char* input, char* buff, size_t size) {
-    printf("Prompt: %s", input);
+static void read_line(char* buff, size_t size) {
+    // printf("Prompt: %s", input);
     if (fgets(buff, (int) size, stdin) == NULL) {
-        buff[0] = "\0";
+        buff[0] = '\0';
         return;
     }
 }
 
+// TODO: finish implementing me
 static void vault_menu(VaultSession* vault_session) {
     char buff[8];
-    read_line(stdin, &buff, sizeof(buff));
+    read_line(&buff, sizeof(buff));
     printf("Heyo! What would you like to do this time?\n");
     printf("New here? type h to get some help\n");
     while (1) {
@@ -23,13 +24,12 @@ static void vault_menu(VaultSession* vault_session) {
             break;
         case '1':
             printf("You have chose to create a new vault\n");
-            return 0;
+            break;
         case '2':
             printf("You have chose to unlock an existing vault\n");
-            return 0;
         case '3':
             printf("Password manager closed, goodbye :)\n");
-            return 0;
+            break;
         case 'h':
             printf("Here are the list of entries, which you can give as an input\n");
             printf("1 - Create a new Vault\n");
@@ -64,6 +64,9 @@ int main(void) {
     printf("======================================================================\n");
     printf("        PASSWORD MANAGER\n");
     printf("======================================================================\n");
+    // TODO: finish implementing me
     VaultSession* vault_session;
     vault_menu(vault_session);
+
+    return 0;
 }
