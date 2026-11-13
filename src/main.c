@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+
 int main(void) {
 
     printf("      ********      \n");
@@ -20,7 +22,7 @@ int main(void) {
     printf("======================================================================\n");
     char buff;
     printf("Heyo! What would you like to do this time?\n");
-    printf("New here? press h to get some help\n");
+    printf("New here? type h to get some help\n");
     while (1) {
 
         if (scanf("%c", &buff) != 1) {

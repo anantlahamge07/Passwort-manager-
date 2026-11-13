@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
+// TODO fix me
 VaultSession* create_vault_session(unsigned size, unsigned capacity, bool state) {
     VaultSession vault_session = {
         .size = size, 

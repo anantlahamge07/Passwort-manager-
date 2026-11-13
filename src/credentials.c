@@ -10,6 +10,8 @@ void str_cpy(char* src, char* dst) {
     if (src == NULL) return;
     strncpy(src, dst, strlen(dst));
 }
+
+// TODO fix me (ownership problem)
 Entry* create_entry(unsigned id,char* name, char* username, char* password, char* url) {
     Entry entry = {
         .id = id
