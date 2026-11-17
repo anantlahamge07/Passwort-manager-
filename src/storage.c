@@ -10,15 +10,6 @@
     // char* url;
 // } Entry;
 
-
-// a helper function to allocate memory and copy the source string to the destination string
-void str_cpy(char* src, char* dst) {
-    if (src == NULL || dst == NULL) return;
-    src = malloc(strlen(dst) + 1);
-    if (src == NULL) return;
-    strncpy(src, dst, strlen(dst));
-}
-
 // TODO: implement me
 bool save_session(VaultSession* vault_session, const char* path) {
     // invalid inputs
