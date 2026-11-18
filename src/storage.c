@@ -1,5 +1,6 @@
 #include "../include/storage.h"
 #include "stdio.h"
+#include <stdlib.h>
 
 
 // typedef struct {
@@ -17,7 +18,7 @@ bool save_session(VaultSession* vault_session, const char* path) {
     FILE* fptr;
     // opening the file in write mode
     if ((fptr = fopen(path, "w")) == NULL) return false;
-    fprintf(fptr, vault_session->size);
+    fprintf(fptr, "%u", vault_session->size);
     for (size_t i = 0; i < vault_session->size; i++)
     {
         fprintf(fptr, "%u\n", vault_session->entries[i]->id);
@@ -45,7 +46,7 @@ VaultSession* load_session(const char* path) {
     char buf[32];
     fgets(buf, sizeof(buf), fptr);
     int num_of_entries = atoi(buf);
-    VaultSession* vault_session = create_vault_session(0, num_of_entries, true);
+    VaultSession* vault_session = create_vault_session(0, (unsigned) num_of_entries, true);
     if (vault_session == NULL) {
         fclose(fptr);
         return NULL;

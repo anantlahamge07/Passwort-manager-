@@ -4,6 +4,7 @@
 
 // TODO fix me
 VaultSession* create_vault_session(unsigned size, unsigned capacity, bool state) {
+    VaultSession* vault_session = 
     VaultSession vault_session = {
         .size = size, 
         .entries = malloc(capacity * sizeof(Entry)),

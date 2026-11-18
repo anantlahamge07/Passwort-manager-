@@ -65,7 +65,7 @@ int main(void) {
     printf("        PASSWORD MANAGER\n");
     printf("======================================================================\n");
     // TODO: finish implementing me
-    VaultSession* vault_session;
+    VaultSession* vault_session = NULL;
     vault_menu(vault_session);
 
     return 0;
