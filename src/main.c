@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/vault_session.h"
+#include "../include/vault_manager.h"
+#include "../include/storage.h"
 
 // helper to read the input
 static void read_line(char* buff, size_t size) {
@@ -12,11 +14,9 @@ static void read_line(char* buff, size_t size) {
 }
 
 // TODO: finish implementing me
-static void vault_menu(VaultSession* vault_session) {
+static void vault_menu(VaultSession* vault_session, Vault* vault) {
     char buff[8];
-    read_line(&buff, sizeof(buff));
-    printf("Heyo! What would you like to do this time?\n");
-    printf("New here? type h to get some help\n");
+    read_line(buff, sizeof(buff));
     while (1) {
         switch (buff[0])
         {
@@ -24,6 +24,14 @@ static void vault_menu(VaultSession* vault_session) {
             break;
         case '1':
             printf("You have chose to create a new vault\n");
+            char name_buff[252];
+            char id_buff[32];
+            printf("Please enter the name of the vault\n");
+            read_line(name_buff, sizeof(name_buff));
+            printf("Please enter the unique id of the vault\n");
+            read_line(id_buff, sizeof(id_buff));
+            Vault* created_vault = create_vault(name_buff, atoi(id_buff), vault->path);
+            printf("A new vault ha been created and saved\n");
             break;
         case '2':
             printf("You have chose to unlock an existing vault\n");
@@ -64,9 +72,12 @@ int main(void) {
     printf("======================================================================\n");
     printf("        PASSWORD MANAGER\n");
     printf("======================================================================\n");
+    printf("Heyo! What would you like to do this time?\n");
+    printf("New here? type h to get some help\n");
     // TODO: finish implementing me
     VaultSession* vault_session = NULL;
-    vault_menu(vault_session);
+    Vault* vault = NULL;
+    vault_menu(vault_session, vault);
 
     return 0;
 }
