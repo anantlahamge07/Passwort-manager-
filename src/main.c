@@ -12,9 +12,43 @@ static void read_line(char* buff, size_t size) {
         return;
     }
 }
-
-// TODO: finish implementing me
 static void vault_menu(VaultSession* vault_session, Vault* vault) {
+    char buff[8];
+    read_line(&buff, sizeof(buff));
+    printf("New here? type h to get some help\n");
+    while (1) {
+        switch (buff[0])
+        {
+        case '\n':
+            break;
+        case '1':
+            printf("You have chose to add a new entry to the vault\n");
+            break;
+        case '2':
+            printf("You have to chose to list all the entries present in thr vault\n");
+        case '3':
+            printf("You have chose to delete an entry from the vault\n");
+            printf("The entry has been successfully deleted\n");
+            break;
+        case '4':
+        printf("You have chose to lock the vault\n");
+        printf("The vault has been successfully locked\n");
+        case 'h':
+            printf("Here are the list of entries, which you can give as an input\n");
+            printf("1 - Add enty\n");
+            printf("2 - List all entries\n");
+            printf("3 - Delete an entry\n");
+            printf("h - Lock the vault\n");
+            break;
+        
+        default:
+            printf("Enter h to get a set of the valid inputs\n");
+            break;
+        };
+    }
+}
+// TODO: finish implementing me
+static void main_menu(VaultSession* vault_session, Vault* vault) {
     char buff[8];
     read_line(buff, sizeof(buff));
     while (1) {
@@ -27,7 +61,11 @@ static void vault_menu(VaultSession* vault_session, Vault* vault) {
             char name_buff[252];
             char id_buff[32];
             printf("Please enter the name of the vault\n");
-            read_line(name_buff, sizeof(name_buff));
+            while(name_buff == "") {
+                read_line(name_buff, sizeof(name_buff));
+                if (name_buff == "") printf("The name cannot be emtpy\n");
+                else break;
+            }
             printf("Please enter the unique id of the vault\n");
             read_line(id_buff, sizeof(id_buff));
             Vault* created_vault = create_vault(name_buff, atoi(id_buff), vault->path);
@@ -35,6 +73,8 @@ static void vault_menu(VaultSession* vault_session, Vault* vault) {
             break;
         case '2':
             printf("You have chose to unlock an existing vault\n");
+            VaultSession* loaded_vault_session = load_session(vault->path);
+            break;
         case '3':
             printf("Password manager closed, goodbye :)\n");
             break;
