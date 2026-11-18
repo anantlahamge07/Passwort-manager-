@@ -4,14 +4,15 @@
 
 // TODO fix me
 VaultSession* create_vault_session(unsigned size, unsigned capacity, bool state) {
-    VaultSession* vault_session = 
-    VaultSession vault_session = {
-        .size = size, 
-        .entries = malloc(capacity * sizeof(Entry)),
-        .capacity = capacity,
-    };
-
-    return &vault_session;
+    VaultSession* vault_session = malloc(sizeof(VaultSession));
+    vault_session->capacity = capacity;
+    vault_session->size = vault_session->size;
+    vault_session->state = state;
+    for (size_t i = 0; i < size; i++)
+    {
+        vault_session->entries[i] = malloc(sizeof(Entry));
+    }
+    return vault_session;
 }
 
 

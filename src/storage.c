@@ -52,6 +52,7 @@ VaultSession* load_session(const char* path) {
         return NULL;
     }
     while (num_of_entries > 0){
+        num_of_entries--;
         char id_buf[32];
         char name_buf[MAX_NAME];
         char username_buf[MAX_USERNAME];
@@ -69,7 +70,6 @@ VaultSession* load_session(const char* path) {
             return NULL;
         }
         if (!add_entry(vault_session, entry)) fclose(fptr); return NULL;
-        num_of_entries--;
     }
     fclose(fptr);
     return vault_session;
