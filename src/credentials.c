@@ -4,6 +4,7 @@
 #include <string.h>
 
 // a helper function to allocate memory and copy the source string to the destination string
+//  TODO: fix me (something related to create_entry)
 void str_cpy(char* src, char* dst) {
     if (src == NULL || dst == NULL) return;
     src = malloc(strlen(dst) + 1);
@@ -11,18 +12,17 @@ void str_cpy(char* src, char* dst) {
     strncpy(src, dst, strlen(dst));
 }
 
-// TODO fix me (ownership problem)
-Entry* create_entry(unsigned id,char* name, char* username, char* password, char* url) {
-    Entry entry = {
-        .id = id
-    };
-    // copying all the given strings to our entry object using our helper function
-    str_cpy(entry.name, name);
-    str_cpy(entry.password, password);
-    str_cpy(entry.url, url);
-    str_cpy(entry.username, username);
 
-    return &entry;
+Entry* create_entry(unsigned id,char* name, char* username, char* password, char* url) {
+    Entry* entry = malloc(sizeof(Entry));
+    entry->id = id;
+    // copying all the given strings to our entry object using our helper function
+    str_cpy(entry->name, name);
+    str_cpy(entry->password, password);
+    str_cpy(entry->url, url);
+    str_cpy(entry->username, username);
+
+    return entry;
 }
 // freeing all the strings owned by a particular entry
 void free_strings(Entry* entry) {
