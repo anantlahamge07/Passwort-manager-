@@ -66,13 +66,42 @@ static void vault_menu(VaultSession* vault_session, Vault* vault) {
             }
             if (!add_entry(vault_session, entry)) {
                 free_entry(entry);
-                printf("Entry could not be added to the vault session\n");}
+                printf("Entry could not be added to the vault session\n");
+                break;
+            }
+            printf("The entry has been successfully added :)\n");
             break;
         case '2':
             printf("You have to chose to list all the entries present in thr vault\n");
-            if (vault_session->size == 0) printf("The session is empty, there is nothing ot be listed :)\n")
+            if (vault_session->size == 0) printf("The session is empty, there is nothing ot be listed :)\n");
+            for (size_t i = 0; i < vault_session->size; i++)
+            {
+                Entry* entry = vault_session->entries[i];
+                // skipping the null entries for the time being
+                if (!entry) continue;
+                printf("id: %u\n", entry->id);
+                printf("name: %s\n", entry->name);
+                printf("username: %s\n", entry->username);
+                printf("password: %s\n", "****");
+                printf("url: %s\n", entry->url);
+            }
+            
+            break;
         case '3':
             printf("You have chose to delete an entry from the vault\n");
+            char id[32];
+            if (read_loop(id, 3, "Please enter the id of the entry to be removed\n") == 0) {
+                printf("Number of attempts failed!\n");
+                break;
+            }
+            if (!remove_entry(vault_session, atoi(id))) {
+                printf("Entry could no be found :(\n");
+                if (read_loop(id, 3, "Please enter the id of the entry to be removed\n") == 0) {
+                    printf("Number of attempts failed!\n");
+                    break;
+                }
+                break;
+            }
             printf("The entry has been successfully deleted\n");
             break;
         case '4':
@@ -87,7 +116,7 @@ static void vault_menu(VaultSession* vault_session, Vault* vault) {
             break;
         
         default:
-            printf("Enter h to get a set of the valid inputs\n");
+            printf("Enter h to get a set of valid inputs\n");
             break;
         };
     }
