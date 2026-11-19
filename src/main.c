@@ -3,7 +3,7 @@
 #include "../include/vault_session.h"
 #include "../include/vault_manager.h"
 #include "../include/storage.h"
-
+#include <string.h>
 // helper to read the input
 static void read_line(char* buff, size_t size) {
     // printf("Prompt: %s", input);
@@ -21,6 +21,12 @@ static int read_loop(char* buff, size_t size, int repeat, char* str) {
         repeat--;
     }
     return 0;
+}
+
+static char* build_path(char* name) {
+    char* str = "vault";
+    strcat(str, "/");
+    return strcat(str, name);
 }
 static void vault_menu(VaultSession* vault_session, Vault* vault) {
     // no arguments validation check, becaus they are guaranteed to be valid
@@ -150,7 +156,8 @@ static void main_menu() {
                 printf("Too many attempts\n");
                 break;
             }
-            Vault* vault = create_vault(name_buff, (unsigned) atoi(id_buff), vault->path);
+            char* path = build_path(name_buff);
+            Vault* vault = create_vault(name_buff, (unsigned) atoi(id_buff), path);
             VaultSession* vault_session = create_vault_session(0, 4, true);
             if (!vault || !vault_session) {
                 printf("There was a problem in the creating of the vault or vault session :(\n");
@@ -163,7 +170,22 @@ static void main_menu() {
             break;
         case '2':
             printf("You have chose to unlock an existing vault\n");
-            VaultSession* loaded_vault_session = load_session(vault->path);
+            char* name[252];
+            if (read_loop(name, sizeof(252), 3, "Please enter the name of the vault\n") == 0) {
+                printf("Too many attempts :(\n");
+                break;
+            }
+            char* path_ = build_path(name);
+            VaultSession* loaded_vault_session = load_session(path_);
+            if (!loaded_vault_session) {
+                printf("Vault not found :(\n");
+                break;
+            }
+            // TODO: fix the id placeholder
+            Vault* created_vault = create_vault(name, 0, path);
+            vault_menu(loaded_vault_session, create_vault);
+            free_vault(vault);
+            free_vault_session(vault_session);
             break;
         case '3':
             end = true;
