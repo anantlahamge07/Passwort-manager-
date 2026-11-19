@@ -34,3 +34,8 @@ void free_strings(Entry* entry) {
     free(entry->username);
 }
 
+void free_entry(Entry* entry) {
+    free_strings(entry);
+    free(entry);
+    entry = NULL;
+}

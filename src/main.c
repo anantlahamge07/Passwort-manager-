@@ -12,7 +12,18 @@ static void read_line(char* buff, size_t size) {
         return;
     }
 }
+
+static int read_loop(char* buff, int repeat, char* str) {
+    while (repeat > 0) {
+        printf(str);
+        read_line(buff, sizeof(buff));
+        if (buff[0] != '\0') return 1;
+        repeat--;
+    }
+    return 0;
+}
 static void vault_menu(VaultSession* vault_session, Vault* vault) {
+    // no arguments validation check, becaus they are guaranteed to be valid
     char buff[8];
     read_line(&buff, sizeof(buff));
     printf("New here? type h to get some help\n");
@@ -22,10 +33,44 @@ static void vault_menu(VaultSession* vault_session, Vault* vault) {
         case '\n':
             break;
         case '1':
-            printf("You have chose to add a new entry to the vault\n");
+            printf("You have chosen to add a new entry\n");
+            char id_buff[32];
+            char name_buff[252];
+            char username_buf[252];
+            char password_buff[252];
+            char url_buff[252];
+            if (read_loop(id_buff, 3, "Please enter an id\n") == 0) {
+                printf("Number of attempts failed, please try again\n");
+                break;
+            }
+            if (read_loop(name_buff, 3, "Please enter a name for the new Entry\n") == 0) {
+                printf("Number of attempts failed, please try again\n");
+                break;
+            }
+            if (read_loop(username_buf, 3, "Please enter an username\n") == 0) {
+                printf("Number of attempts failed, please try again\n");
+                break;
+            }
+            if (read_loop(password_buff, 3, "please enter your password\n") == 0) {
+                printf("Number of attempts failed, please try again\n");
+                break;
+            }
+            if (read_loop(url_buff, 3, "Please enter an url for the Entry\n") == 0) {
+                printf("Number of attempts failed, please try again\n");
+                break;
+            }
+            Entry* entry = create_entry(id_buff, name_buff, username_buf, password_buff, url_buff);
+            if (!entry) {
+                printf("Entry could not be created :(");
+                break;
+            }
+            if (!add_entry(vault_session, entry)) {
+                free_entry(entry);
+                printf("Entry could not be added to the vault session\n");}
             break;
         case '2':
             printf("You have to chose to list all the entries present in thr vault\n");
+            if (vault_session->size == 0) printf("The session is empty, there is nothing ot be listed :)\n")
         case '3':
             printf("You have chose to delete an entry from the vault\n");
             printf("The entry has been successfully deleted\n");
