@@ -69,7 +69,10 @@ VaultSession* load_session(const char* path) {
             fclose(fptr);
             return NULL;
         }
-        if (!add_entry(vault_session, entry)) fclose(fptr); return NULL;
+        if (!add_entry(vault_session, entry)) {
+            fclose(fptr); 
+            return NULL;
+        }
     }
     fclose(fptr);
     return vault_session;

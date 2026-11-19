@@ -24,5 +24,7 @@ Vaults* get_all_vaults();
 
 Vault* get_vault(Vaults* vaults, uint64_t id);
 
+void free_vault(Vault* vault);
+
 
 #endif

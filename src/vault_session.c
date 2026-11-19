@@ -6,7 +6,7 @@
 VaultSession* create_vault_session(unsigned size, unsigned capacity, bool state) {
     VaultSession* vault_session = malloc(sizeof(VaultSession));
     vault_session->capacity = capacity;
-    vault_session->size = vault_session->size;
+    vault_session->size = size;
     vault_session->state = state;
     for (size_t i = 0; i < size; i++)
     {
@@ -65,7 +65,7 @@ bool remove_entry(VaultSession* vault_session, unsigned id) {
     
 }
 
-void free_resources(VaultSession* vault_session) {
+void free_vault_session(VaultSession* vault_session) {
     if (vault_session == NULL) return;
     for (size_t i = 0; i < vault_session->size; i++)
     {
