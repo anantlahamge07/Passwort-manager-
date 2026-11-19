@@ -11,6 +11,8 @@ static void read_line(char* buff, size_t size) {
         buff[0] = '\0';
         return;
     }
+    size_t i = strcspn(buff, "\n");
+    buff[i] = '\0';
 }
 
 static int read_loop(char* buff, size_t size, int repeat, char* str) {
@@ -61,7 +63,7 @@ static void vault_menu(VaultSession* vault_session, Vault* vault) {
             char url_buff[252];
             int next_id_ = next_id(vault_session);
             if (next_id_ == -1) {
-
+                next_id_ = 1;
             }
             if (read_loop(name_buff, sizeof(name_buff), 3, "Please enter a name for the new Entry\n") == 0) {
                 printf("Too many attempts :(\n");
@@ -182,10 +184,11 @@ static void main_menu() {
                 printf("There was a problem in the creating of the vault or vault session :(\n");
                 break;
             }
+            printf("A new vault has been created and saved\n");
+            printf("Vault menu booting up\n");
             vault_menu(vault_session, vault);
             free_vault_session(vault_session);
             free_vault(vault);
-            printf("A new vault has been created and saved\n");
             break;
         case '2':
             printf("You have chose to unlock an existing vault\n");
