@@ -106,6 +106,10 @@ static void vault_menu(VaultSession* vault_session, Vault* vault) {
             break;
         case '4':
         printf("You have chose to lock the vault\n");
+        if (!save_session(vault_session, vault->path)) {
+            printf("The session could not be saved :(\n");
+            break;
+        }
         printf("The vault has been successfully locked\n");
         case 'h':
             printf("Here are the list of entries, which you can give as an input\n");
