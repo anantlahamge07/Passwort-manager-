@@ -44,3 +44,11 @@ Vault* get_vault(Vaults* vaults, uint64_t id) {
     
 
 }
+
+void free_vault(Vault* vault) {
+    if (!vault) return;
+    free(vault->name);
+    free(vault->path);
+    free(vault);
+    vault = NULL;
+}

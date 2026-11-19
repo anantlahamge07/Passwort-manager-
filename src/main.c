@@ -40,23 +40,23 @@ static void vault_menu(VaultSession* vault_session, Vault* vault) {
             char password_buff[252];
             char url_buff[252];
             if (read_loop(id_buff, 3, "Please enter an id\n") == 0) {
-                printf("Number of attempts failed, please try again\n");
+                printf("Too many attempts :(\n");
                 break;
             }
             if (read_loop(name_buff, 3, "Please enter a name for the new Entry\n") == 0) {
-                printf("Number of attempts failed, please try again\n");
+                printf("Too many attempts :(\n");
                 break;
             }
             if (read_loop(username_buf, 3, "Please enter an username\n") == 0) {
-                printf("Number of attempts failed, please try again\n");
+                printf("Too many attempts :(\n");
                 break;
             }
             if (read_loop(password_buff, 3, "please enter your password\n") == 0) {
-                printf("Number of attempts failed, please try again\n");
+                printf("Too many attempts :(\n");
                 break;
             }
             if (read_loop(url_buff, 3, "Please enter an url for the Entry\n") == 0) {
-                printf("Number of attempts failed, please try again\n");
+                printf("Too many attempts :(\n");
                 break;
             }
             Entry* entry = create_entry(id_buff, name_buff, username_buf, password_buff, url_buff);
@@ -126,7 +126,7 @@ static void vault_menu(VaultSession* vault_session, Vault* vault) {
     }
 }
 // TODO: finish implementing me
-static void main_menu(VaultSession* vault_session, Vault* vault) {
+static void main_menu() {
     char buff[8];
     read_line(buff, sizeof(buff));
     while (1) {
@@ -138,15 +138,21 @@ static void main_menu(VaultSession* vault_session, Vault* vault) {
             printf("You have chose to create a new vault\n");
             char name_buff[252];
             char id_buff[32];
-            printf("Please enter the name of the vault\n");
-            while(name_buff == "") {
-                read_line(name_buff, sizeof(name_buff));
-                if (name_buff == "") printf("The name cannot be emtpy\n");
-                else break;
+            if (read_loop(name_buff, 3, "Please enter the name of the vault\n") == 0) {
+                printf("Too many attempts\n");
+                break;
             }
-            printf("Please enter the unique id of the vault\n");
-            read_line(id_buff, sizeof(id_buff));
-            Vault* created_vault = create_vault(name_buff, atoi(id_buff), vault->path);
+            if (read_loop(id_buff, 3, "Please enter the id of the vault\n") == 0) {
+                printf("Too many attempts\n");
+                break;
+            }
+            Vault* vault = create_vault(name_buff, atoi(id_buff), vault->path);
+            VaultSession* vault_session = create_vault_session(0, 4, true);
+            if (!create_vault || !vault_session) {
+                printf("There was a problem in the creating of the vault or vault session :(\n");
+                break;
+            }
+            vault_menu(vault_session, vault);
             printf("A new vault ha been created and saved\n");
             break;
         case '2':
