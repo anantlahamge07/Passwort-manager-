@@ -23,10 +23,24 @@ static int read_loop(char* buff, size_t size, int repeat, char* str) {
     return 0;
 }
 
-static char* build_path(char* name) {
-    char* str = "vault";
-    strcat(str, "/");
-    return strcat(str, name);
+static bool build_path(const char* name, char* out, size_t size) {
+    int written = snprintf(out, size, "vaults/%s.vault", name);
+    if (written < 0 || written >= (int) size) return false;
+    return true;
+}
+
+static int next_id(VaultSession* vault_session) {
+    unsigned max_id = 0;
+    for (size_t i = 0; i < vault_session->size; i++)
+    {
+        Entry* entry = vault_session->entries[i];
+        if (entry->id > max_id) {
+            max_id = entry->id;
+        }
+        
+    }
+    return (int) max_id + 1;
+    
 }
 static void vault_menu(VaultSession* vault_session, Vault* vault) {
     // no arguments validation check, becaus they are guaranteed to be valid
@@ -40,40 +54,40 @@ static void vault_menu(VaultSession* vault_session, Vault* vault) {
             break;
         case '1':
             printf("You have chosen to add a new entry\n");
-            char id_buff[32];
+            // char id_buff[32];
             char name_buff[252];
             char username_buf[252];
             char password_buff[252];
             char url_buff[252];
-            if (read_loop(id_buff, sizeof(id_buff), 3, "Please enter an id\n") == 0) {
-                printf("Too many attempts :(\n");
-                break;
+            int next_id_ = next_id(vault_session);
+            if (next_id_ == -1) {
+
             }
             if (read_loop(name_buff, sizeof(name_buff), 3, "Please enter a name for the new Entry\n") == 0) {
                 printf("Too many attempts :(\n");
-                break;
+                continue;;
             }
             if (read_loop(username_buf, sizeof(username_buf), 3, "Please enter an username\n") == 0) {
                 printf("Too many attempts :(\n");
-                break;
+                continue;
             }
             if (read_loop(password_buff, sizeof(password_buff),3, "please enter your password\n") == 0) {
                 printf("Too many attempts :(\n");
-                break;
+                continue;
             }
             if (read_loop(url_buff, sizeof(url_buff), 3, "Please enter an url for the Entry\n") == 0) {
                 printf("Too many attempts :(\n");
-                break;
+                continue;
             }
-            Entry* entry = create_entry((unsigned) atoi(id_buff), name_buff, username_buf, password_buff, url_buff);
+            Entry* entry = create_entry((unsigned) next_id_, name_buff, username_buf, password_buff, url_buff);
             if (!entry) {
                 printf("Entry could not be created :(");
-                break;
+                continue;
             }
             if (!add_entry(vault_session, entry)) {
                 free_entry(entry);
                 printf("Entry could not be added to the vault session\n");
-                break;
+                continue;
             }
             printf("The entry has been successfully added :)\n");
             break;
@@ -84,7 +98,7 @@ static void vault_menu(VaultSession* vault_session, Vault* vault) {
             {
                 Entry* entry = vault_session->entries[i];
                 // skipping the null entries for the time being
-                if (!entry) continue;
+                if (!entry) continue;;
                 printf("id: %u\n", entry->id);
                 printf("name: %s\n", entry->name);
                 printf("username: %s\n", entry->username);
@@ -97,13 +111,13 @@ static void vault_menu(VaultSession* vault_session, Vault* vault) {
             char id[32];
             if (read_loop(id, sizeof(id), 3, "Please enter the id of the entry to be removed\n") == 0) {
                 printf("Number of attempts failed!\n");
-                break;
+                continue;
             }
             if (!remove_entry(vault_session, (unsigned) atoi(id))) {
                 printf("Entry could no be found :(\n");
                 if (read_loop(id, sizeof(id), 3, "Please enter the id of the entry to be removed\n") == 0) {
                     printf("Number of attempts failed!\n");
-                    break;
+                    continue;
                 }
                 break;
             }
@@ -116,7 +130,7 @@ static void vault_menu(VaultSession* vault_session, Vault* vault) {
             break;
         }
         printf("The vault has been successfully locked\n");
-        break;
+        return;
         case 'h':
             printf("Here are the list of entries, which you can give as an input\n");
             printf("1 - Add enty\n");
@@ -133,10 +147,10 @@ static void vault_menu(VaultSession* vault_session, Vault* vault) {
 }
 // TODO: finish implementing me
 static void main_menu() {
+    bool end = false;
     while (1) {
         char buff[32];
         read_line(buff, sizeof(buff));
-        bool end = false;
         if (end) {
             break;
         }
@@ -156,7 +170,12 @@ static void main_menu() {
                 printf("Too many attempts\n");
                 break;
             }
-            char* path = build_path(name_buff);
+            char path[512];
+            bool r = build_path(name_buff, path, sizeof(name_buff));
+            if (!r) {
+                printf("Invalid vault name\n");
+                continue;;
+            }
             Vault* vault = create_vault(name_buff, (unsigned) atoi(id_buff), path);
             VaultSession* vault_session = create_vault_session(0, 4, true);
             if (!vault || !vault_session) {
@@ -170,22 +189,27 @@ static void main_menu() {
             break;
         case '2':
             printf("You have chose to unlock an existing vault\n");
-            char* name[252];
-            if (read_loop(name, sizeof(252), 3, "Please enter the name of the vault\n") == 0) {
+            char name[252];
+            if (read_loop(name, sizeof(name), 3, "Please enter the name of the vault\n") == 0) {
                 printf("Too many attempts :(\n");
                 break;
             }
-            char* path_ = build_path(name);
+            char path_[512];
+            bool r_ = build_path(name, path_, sizeof(name));
+            if (!r_) {
+                printf("Invalid vault name\n");
+                continue;
+            }
             VaultSession* loaded_vault_session = load_session(path_);
             if (!loaded_vault_session) {
                 printf("Vault not found :(\n");
                 break;
             }
             // TODO: fix the id placeholder
-            Vault* created_vault = create_vault(name, 0, path);
-            vault_menu(loaded_vault_session, create_vault);
-            free_vault(vault);
-            free_vault_session(vault_session);
+            Vault* created_vault = create_vault(name, 0, path_);
+            vault_menu(loaded_vault_session, created_vault);
+            free_vault(created_vault);
+            free_vault_session(loaded_vault_session);
             break;
         case '3':
             end = true;
