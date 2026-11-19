@@ -20,10 +20,12 @@ Vault* create_vault(char* name, uint64_t id, char* path) {
         free(vault->name);
         return NULL;
     }
-    strncpy(vault->name, name, strlen(name));
-    vault->name[strlen(vault->name)] = '\0';
-    strncpy(vault->path, path, strlen(path));
-    vault->path[strlen(vault->path)] = '\0';
+    char dest[sizeof(name)];
+    char dest1[sizeof(path)];
+    strncpy(dest, name, sizeof(name));
+    vault->name = dest;
+    strncpy(dest1, path, sizeof(path));
+    vault->path = dest1;
     return vault;
 }
 
