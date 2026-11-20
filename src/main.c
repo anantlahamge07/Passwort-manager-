@@ -152,11 +152,11 @@ static void vault_menu(VaultSession* vault_session, Vault* vault) {
 static void main_menu() {
     bool end = false;
     while (1) {
-        char buff[32];
-        read_line(buff, sizeof(buff));
         if (end) {
             break;
         }
+        char buff[32];
+        read_line(buff, sizeof(buff));
         switch (buff[0])
         {
         case '\n':

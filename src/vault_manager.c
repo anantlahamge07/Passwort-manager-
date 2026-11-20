@@ -1,4 +1,5 @@
 #include "../include/vault_manager.h"
+#include "../include/credentials.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,11 +21,10 @@ Vault* create_vault(char* name, uint64_t id, char* path) {
         free(vault->name);
         return NULL;
     }
-    char dest[sizeof(name)];
-    char dest1[sizeof(path)];
-    strncpy(dest, name, sizeof(name));
+    
+    char* dest = str_cpy(name);
     vault->name = dest;
-    strncpy(dest1, path, sizeof(path));
+    char* dest1 = str_cpy(path);
     vault->path = dest1;
     return vault;
 }
