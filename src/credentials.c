@@ -14,7 +14,7 @@ char* str_cpy(char* src) {
 }
 
 
-Entry* create_entry(unsigned id,char* name, char* username, char* password, char* url) {
+Entry* create_entry(unsigned id, char* name, char* username, char* password, char* url) {
     Entry* entry = malloc(sizeof(Entry));
     // assigning the id
     entry->id = id;

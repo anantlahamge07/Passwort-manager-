@@ -46,7 +46,7 @@ VaultSession* load_session(const char* path) {
     char buf[32];
     fgets(buf, sizeof(buf), fptr);
     int num_of_entries = atoi(buf);
-    VaultSession* vault_session = create_vault_session(0, (unsigned) num_of_entries, true);
+    VaultSession* vault_session = create_vault_session((unsigned) num_of_entries, true);
     if (vault_session == NULL) {
         fclose(fptr);
         return NULL;

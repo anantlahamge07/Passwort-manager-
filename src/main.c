@@ -138,7 +138,8 @@ static void vault_menu(VaultSession* vault_session, Vault* vault) {
             printf("1 - Add enty\n");
             printf("2 - List all entries\n");
             printf("3 - Delete an entry\n");
-            printf("h - Lock the vault\n");
+            printf("4 - Lock the vault\n");
+            printf("h - to get the set of commands\n");
             break;
         
         default:
@@ -179,7 +180,7 @@ static void main_menu() {
                 continue;;
             }
             Vault* vault = create_vault(name_buff, (unsigned) atoi(id_buff), path);
-            VaultSession* vault_session = create_vault_session(0, 4, true);
+            VaultSession* vault_session = create_vault_session(4, true);
             if (!vault || !vault_session) {
                 printf("There was a problem in the creating of the vault or vault session :(\n");
                 break;

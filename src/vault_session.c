@@ -3,15 +3,17 @@
 #include <stdio.h>
 
 // TODO fix me
-VaultSession* create_vault_session(unsigned size, unsigned capacity, bool state) {
+VaultSession* create_vault_session(unsigned capacity, bool state) {
     VaultSession* vault_session = malloc(sizeof(VaultSession));
-    vault_session->capacity = capacity;
-    vault_session->size = size;
-    vault_session->state = state;
-    for (size_t i = 0; i < size; i++)
-    {
-        vault_session->entries[i] = malloc(sizeof(Entry));
+    if (!vault_session) return NULL;
+    vault_session->entries = calloc(capacity, sizeof(Entry));
+    if (!vault_session->entries) {
+        free(vault_session);
+        return NULL;
     }
+    vault_session->capacity = capacity;
+    vault_session->size = 0;
+    vault_session->state = state;
     return vault_session;
 }
 
