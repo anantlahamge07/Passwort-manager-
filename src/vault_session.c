@@ -47,6 +47,14 @@ bool add_entry (VaultSession* vault_session, Entry* entry) {
     return true;
 }
 
+// helper to move lall the elemnts of the entries to the right, so that there are no null entires in the entries list
+void move_left(size_t k, size_t size, VaultSession* vault_session) {
+    for (size_t i = k; i < size - 1; i++)
+    {
+        vault_session->entries[i] = vault_session->entries[i + 1];
+    }
+    
+}
 
 bool remove_entry(VaultSession* vault_session, unsigned id) {
     if (vault_session == NULL) return false;
@@ -57,6 +65,7 @@ bool remove_entry(VaultSession* vault_session, unsigned id) {
             // setting the required pointer to NULL
             free_entry(vault_session->entries[i]);
             vault_session->entries[i] = NULL;
+            move_left(i, vault_session->size, vault_session);
             vault_session->size--;
             return true;
         }
@@ -64,6 +73,7 @@ bool remove_entry(VaultSession* vault_session, unsigned id) {
     return false;
     
 }
+
 
 void free_vault_session(VaultSession* vault_session) {
     if (vault_session == NULL) return;
