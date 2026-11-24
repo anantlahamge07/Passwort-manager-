@@ -11,7 +11,9 @@ run: $(INCLUDES)
 
 test: src/crypto.c tests/test.c
 	$(CC) $(CFLAGS) $^ -o test 
+
 run_test:
 	./test
+	
 clean: 
 	rm test

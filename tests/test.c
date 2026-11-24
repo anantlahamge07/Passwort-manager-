@@ -20,7 +20,7 @@ int main(void)
         printf("The key couldn't be derived :(\n");
         return 0;
     }
-    printf("The key has been generated: %d\n", key);
+    printf("The key has been generated: %u\n", key);
     uint8_t ciphertext[TAG_SIZE + strlen(m)];
     size_t encryption = encrypt_data((const uint8_t*)m, strlen(m), key, nonce, ciphertext, sizeof(ciphertext));
     if (encryption == 0) {
