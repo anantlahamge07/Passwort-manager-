@@ -1,6 +1,6 @@
 #include "../include/crypto.h"
 #include <stdlib.h>
-#include <sodium.h>
+
 
 bool crypto_init() {
     if (sodium_init() < 0) {
@@ -40,8 +40,9 @@ size_t encrypt_data(const uint8_t* plain_text, size_t len_of_plaintext, const ui
     return clen_p;
 }
 // here we will again use XChaCha20-Poly1305 decryption, which is again also provided by libsodium 
+// Note: here decryption does two things - 1. decrypt the ciphertext 2. verify the authentication of the tag
 size_t decrypt_data(const uint8_t* ciphertext, size_t len_ciphertext, const uint8_t* key, const uint8_t* nonce, uint8_t* output, size_t output_size) {
-    if (output_size != (len_ciphertext + TAG_SIZE)) return 0;
+    if (output_size < (len_ciphertext - TAG_SIZE)) return 0;
     unsigned long long mlen_p; 
     if (!output || !key || !nonce || !ciphertext) return 0;
     int res = crypto_aead_xchacha20poly1305_ietf_decrypt(output, &mlen_p, NULL, ciphertext, len_ciphertext,

@@ -4,11 +4,14 @@ CFLAGS = -Wextra -Wall -Wunreachable-code -Wfloat-equal -Wconversion -fsanitize=
 INCLUDES = src/main.c src/credentials.c src/vault_session.c  src/vault_manager.c src/storage.c src/crypto.c
 
 all: $(INCLUDES)
-	$(CC) $(CFLAGS) $^ -o test
+	$(CC) $(CFLAGS) $^ -o prog
 
 run: $(INCLUDES)
+	./prog
+
+test: src/crypto.c tests/test.c
+	$(CC) $(CFLAGS) $^ -o test 
+run_test:
 	./test
-
-
 clean: 
 	rm test

@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <sodium.h>
 
 #define KEY_SIZE 32
 #define NONCE_SIZE 24
