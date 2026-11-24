@@ -1,6 +1,6 @@
 CC = gcc
 # the compiler flags
-CFLAGS = -Wextra -Wall -Wunreachable-code -Wfloat-equal -Wconversion -fsanitize=address $(shell pkg-config --cflags libsodium)
+CFLAGS = -Wextra -Wall -Wunreachable-code -Wfloat-equal -Wconversion -fsanitize=address -lsodium
 INCLUDES = src/main.c src/credentials.c src/vault_session.c  src/vault_manager.c src/storage.c
 
 all: $(INCLUDES)
