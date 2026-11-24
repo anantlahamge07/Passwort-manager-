@@ -4,7 +4,7 @@
 #include <string.h>
 
 // a helper function to allocate memory and copy the source string to the destination string
-//  TODO: fix me (something related to create_entry)
+
 char* str_cpy(char* src) {
     if (src == NULL) return NULL;
     char* dst = malloc(strlen(src) + 1);

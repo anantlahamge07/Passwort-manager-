@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// TODO fix me
 VaultSession* create_vault_session(unsigned capacity, bool state) {
     VaultSession* vault_session = malloc(sizeof(VaultSession));
     if (!vault_session) return NULL;
@@ -16,7 +15,6 @@ VaultSession* create_vault_session(unsigned capacity, bool state) {
     vault_session->state = state;
     return vault_session;
 }
-
 
 bool add_entry (VaultSession* vault_session, Entry* entry) {
     if (vault_session == NULL || entry == NULL) return false;

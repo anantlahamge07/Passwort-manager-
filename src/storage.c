@@ -11,14 +11,13 @@
     // char* url;
 // } Entry;
 
-// TODO: implement me
 bool save_session(VaultSession* vault_session, const char* path) {
     // invalid inputs
     if (vault_session == NULL || path == NULL) return false;
     FILE* fptr;
     // opening the file in write mode
     if ((fptr = fopen(path, "w")) == NULL) return false;
-    fprintf(fptr, "%u", vault_session->size);
+    fprintf(fptr, "%u\n", vault_session->size);
     for (size_t i = 0; i < vault_session->size; i++)
     {
         fprintf(fptr, "%u\n", vault_session->entries[i]->id);
@@ -33,7 +32,6 @@ bool save_session(VaultSession* vault_session, const char* path) {
     return true;
 
 }
-// TODO: implement me
 VaultSession* load_session(const char* path) {
     // invalid input
     if (!path) return NULL;
