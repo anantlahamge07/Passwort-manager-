@@ -14,7 +14,7 @@
 bool crypto_init();
 
 // to derive the key used for encryption using Argon2id
-bool derive_key(const char* master_password, size_t len_of_password, const uint8_t* salt, size_t len_of_salt, uint8_t* buf);
+bool derive_key(const char* master_password, size_t len_of_password, const uint8_t* salt, uint8_t* buf);
 
 // to generate cryptographically secure random bytes
 bool generate_random_bytes(uint8_t* buf, size_t size);
