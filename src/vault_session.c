@@ -80,7 +80,7 @@ void free_vault_session(VaultSession* vault_session) {
     for (size_t i = 0; i < vault_session->size; i++)
     {
         // freeing each and every entry in the VaultSession
-        free(vault_session->entries[i]);
+        free_entry(vault_session->entries[i]);
         vault_session->entries[i] = NULL;
     }
     free(vault_session);

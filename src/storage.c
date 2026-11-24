@@ -42,7 +42,10 @@ VaultSession* load_session(const char* path) {
         return NULL;
     }
     char buf[32];
-    fgets(buf, sizeof(buf), fptr);
+    if (!fgets(buf, sizeof(buf), fptr)) {
+        fclose(fptr);
+        return NULL;
+    }
     int num_of_entries = atoi(buf);
     VaultSession* vault_session = create_vault_session((unsigned) num_of_entries, true);
     if (vault_session == NULL) {
