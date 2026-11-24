@@ -12,19 +12,20 @@ Vault* create_vault(char* name, uint64_t id, char* path) {
     }
     // allocating memory for the vault
     Vault* vault = (Vault*) malloc(sizeof(Vault));
+    if (!vault) return NULL;
     vault->id = id;
-    // initializing the name and path parameters of the vault
-    vault->name = (char*) malloc(strlen(name) + 1);
-    if (vault->name == NULL) return NULL;
-    vault->path = (char*) malloc(strlen(path) + 1);
-    if (vault->path == NULL) {
-        free(vault->name);
-        return NULL;
-    }
     
     char* dest = str_cpy(name);
+    if (!dest) {
+        free(vault);
+        return NULL;
+    }
     vault->name = dest;
     char* dest1 = str_cpy(path);
+    if (!dest1) {
+        free(vault);
+        return NULL;
+    }
     vault->path = dest1;
     return vault;
 }
