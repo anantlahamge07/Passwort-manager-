@@ -1,8 +1,13 @@
 #include "../include/crypto.h"
 #include <stdlib.h>
+#include <sodium.h>
 
-// to initialize the libsodium
-bool crypto_init();
+bool crypto_init() {
+    if (sodium_init() < 0) {
+        return false;
+    }
+    return true;
+}
 
 // to derive the key used for encryption using Argon2id
 bool derive_key(const char* master_password, size_t len_of_password, const uint8_t* salt, size_t len_of_salt, uint8_t* buf);
