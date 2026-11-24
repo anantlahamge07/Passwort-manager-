@@ -5,7 +5,7 @@
 VaultSession* create_vault_session(unsigned capacity, bool state) {
     VaultSession* vault_session = malloc(sizeof(VaultSession));
     if (!vault_session) return NULL;
-    vault_session->entries = calloc(capacity, sizeof(Entry));
+    vault_session->entries = calloc(capacity, sizeof(Entry*));
     if (!vault_session->entries) {
         free(vault_session);
         return NULL;

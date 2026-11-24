@@ -15,18 +15,16 @@ Vault* create_vault(char* name, uint64_t id, char* path) {
     if (!vault) return NULL;
     vault->id = id;
     
-    char* dest = str_cpy(name);
-    if (!dest) {
+    vault->name = str_cpy(name);
+    if (!vault->name) {
         free(vault);
         return NULL;
     }
-    vault->name = dest;
-    char* dest1 = str_cpy(path);
-    if (!dest1) {
+    vault->path = str_cpy(path);
+    if (!vault->path) {
         free(vault);
         return NULL;
     }
-    vault->path = dest1;
     return vault;
 }
 

@@ -16,13 +16,30 @@ char* str_cpy(char* src) {
 
 Entry* create_entry(unsigned id, char* name, char* username, char* password, char* url) {
     Entry* entry = malloc(sizeof(Entry));
+    if (!entry) return NULL;
     // assigning the id
     entry->id = id;
     // copying all the given strings to our entry object using our helper function
     entry->name = str_cpy(name);
+    if (!entry->name) {
+        free(entry);
+        return NULL;
+    }
     entry->username = str_cpy(username);
+    if (!entry->username) {
+        free(entry);
+        return NULL;
+    }
     entry->password = str_cpy(password);
+    if (!entry->password) {
+        free(entry);
+        return NULL;
+    }
     entry->url = str_cpy(url);
+    if (!entry->url) {
+        free(entry);
+        return NULL;
+    }
     return entry;
 }
 // freeing all the strings owned by a particular entry
