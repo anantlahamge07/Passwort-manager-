@@ -2,6 +2,8 @@
 
 A small, interactive command-line password manager written in C. It lets you create a vault, add and list credential entries, remove entries, and save a vault when you lock it.
 
+> **Development status:** This project is still in development. Cryptography is being implemented and is not currently available.
+
 > **Security note:** Vault files are currently stored as readable plaintext. There is no master password, encryption, or access control. Do not use this program to store real or sensitive credentials.
 
 ## Requirements
