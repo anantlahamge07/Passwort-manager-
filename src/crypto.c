@@ -29,7 +29,7 @@ bool generate_random_bytes(uint8_t* buf, size_t size) {
 
 // Note: the output buffer must have minimum size len(plain_text) + TAG_SIZE
 // here we will use XChaCha20-Poly1305 encryption, which is provided by libsodium
-size_t encrypt_data(const uint8_t* plain_text, size_t len_of_plaintext, const uint8_t* key, 
+size_t encrypt_data(const uint8_t* plain_text, size_t len_of_plaintext, const uint8_t* key,
     const uint8_t* nonce, uint8_t* output, size_t output_size) {
     if (output_size != (len_of_plaintext + TAG_SIZE)) return 0;
     unsigned long long clen_p; 
@@ -38,4 +38,14 @@ size_t encrypt_data(const uint8_t* plain_text, size_t len_of_plaintext, const ui
         NULL, 0, NULL, nonce, key);
     if (res == -1) return 0;
     return clen_p;
+}
+// here we will again use XChaCha20-Poly1305 decryption, which is again also provided by libsodium 
+size_t decrypt_data(const uint8_t* ciphertext, size_t len_ciphertext, const uint8_t* key, const uint8_t* nonce, uint8_t* output, size_t output_size) {
+    if (output_size != (len_ciphertext + TAG_SIZE)) return 0;
+    unsigned long long mlen_p; 
+    if (!output || !key || !nonce || !ciphertext) return 0;
+    int res = crypto_aead_xchacha20poly1305_ietf_decrypt(output, &mlen_p, NULL, ciphertext, len_ciphertext,
+        NULL, 0, nonce, key);
+    if (res == -1) return 0;
+    return mlen_p;
 }

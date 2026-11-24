@@ -23,4 +23,6 @@ bool generate_random_bytes(uint8_t* buf, size_t size);
 // Note: the output buffer must have minimum size len(plain_text) + TAG_SIZE
 size_t encrypt_data(const uint8_t* plain_text, size_t len_of_plaintext, const uint8_t* key, const uint8_t* nonce, uint8_t* output, size_t output_size);
 
+size_t decrypt_data(const uint8_t* ciphertext, size_t len_ciphertext, const uint8_t* key, const uint8_t* nonce, uint8_t* output, size_t output_size);
+
 #endif
