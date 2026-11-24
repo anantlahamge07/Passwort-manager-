@@ -181,11 +181,17 @@ static void main_menu() {
             }
             Vault* vault = create_vault(name_buff, (unsigned) atoi(id_buff), path);
             VaultSession* vault_session = create_vault_session(4, true);
-            if (!vault || !vault_session) {
-                printf("There was a problem in the creating of the vault or vault session :(\n");
+            if (!vault) {
+                free_vault_session(vault_session);
+                printf("There was a problem in the creating of the vault :(\n");
                 break;
             }
-            printf("A new vault has been created and saved\n");
+            if (!vault_session) {
+                free_vault(vault);
+                printf("There was a problem in the creating of the vault session :(\n");
+                break;
+            }
+            printf("A new vault has been created and would be saved after you lock it\n");
             printf("Vault menu booting up\n");
             vault_menu(vault_session, vault);
             free_vault_session(vault_session);
@@ -211,6 +217,11 @@ static void main_menu() {
             }
             // TODO: fix the id placeholder
             Vault* created_vault = create_vault(name, 0, path_);
+            if (!created_vault) {
+                free_vault_session(loaded_vault_session);
+                printf("There was a problem in creation of the vault :(\n");
+                break;
+            }
             vault_menu(loaded_vault_session, created_vault);
             free_vault(created_vault);
             free_vault_session(loaded_vault_session);
