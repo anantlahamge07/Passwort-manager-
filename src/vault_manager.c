@@ -27,7 +27,7 @@ Vault* create_vault(char* name, uint64_t id, char* path) {
     }
     return vault;
 }
-
+// TODO: implement me
 Vaults* get_all_vaults() {
     return NULL;
 }
